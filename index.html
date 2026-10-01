@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Security Alert</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #000;
+    font-family: monospace;
+}
+
+body {
+    color: #00ff41;
+}
+
+/* =========================
+   SCREEN 1 — WARNING
+========================= */
+
+#warning {
+    position: fixed;
+    inset: 0;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    z-index: 10;
+    padding: 25px;
+}
+
+.warning-icon {
+    width: 90px;
+    height: 90px;
+    border: 4px solid #ff2020;
+    border-radius: 50%;
+    color: #ff2020;
+    font-family: Arial, sans-serif;
+    font-size: 65px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 30px #ff2020;
+    animation: pulse 1s infinite;
+}
+
+.warning-title {
+    margin-top: 30px;
+    color: #ff2020;
+    font-family: Arial, sans-serif;
+    font-size: clamp(28px, 8vw, 52px);
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-shadow: 0 0 20px #ff2020;
+}
+
+.warning-text {
+    margin-top: 15px;
+    color: #ff7777;
+    font-family: Arial, sans-serif;
+    font-size: clamp(14px, 4vw, 19px);
+}
+
+/* =========================
+   ALERT
+========================= */
+
+#alert {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.96);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 20;
+    padding: 25px;
+}
+
+.alert-box {
+    width: min(420px, 100%);
+    border: 2px solid #ff2020;
+    background: #090000;
+    box-shadow: 0 0 35px #ff202066;
+    padding: 25px;
+    text-align: center;
+}
+
+.alert-box h2 {
+    color: #ff2020;
+    font-family: Arial, sans-serif;
+    margin-bottom: 15px;
+    font-size: 25px;
+}
+
+.alert-box p {
+    color: #ffaaaa;
+    font-family: Arial, sans-serif;
+    line-height: 1.5;
+}
+
+.alert-button {
+    margin-top: 22px;
+    padding: 12px 25px;
+    background: #ff2020;
+    color: white;
+    border: 0;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+/* =========================
+   SCREEN 3 — CODE
+========================= */
+
+#codeScreen {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: #000;
+    overflow: hidden;
+}
+
+#code {
+    position: absolute;
+    inset: 0;
+    padding: 12px;
+    color: #00ff41;
+    font-size: 13px;
+    line-height: 1.35;
+    white-space: pre-wrap;
+    word-break: break-all;
+    text-shadow: 0 0 7px #00ff41;
+}
+
+.topbar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 35px;
+    padding: 8px 12px;
+    background: rgba(0,20,5,.9);
+    border-bottom: 1px solid #00ff4144;
+    color: #00ff41;
+    z-index: 2;
+    font-size: 12px;
+}
+
+.cursor {
+    position: absolute;
+    width: 8px;
+    height: 16px;
+    background: #00ff41;
+    animation: blink .5s infinite;
+}
+
+/* =========================
+   ANIMATIONS
+========================= */
+
+@keyframes pulse {
+    0%,100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.08);
+        opacity: .6;
+    }
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
+
+@keyframes flash {
+    0%,100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: .3;
+    }
+}
+
+.flash {
+    animation: flash .4s infinite;
+}
+</style>
+</head>
+
+<body>
+
+<!-- WARNING SCREEN -->
+
+<div id="warning">
+
+    <div class="warning-icon">!</div>
+
+    <div class="warning-title">
+        YOUR PHONE HAS BEEN HACKED
+    </div>
+
+    <div class="warning-text">
+        Unauthorized access detected...
+    </div>
+
+</div>
+
+
+<!-- ALERT SCREEN -->
+
+<div id="alert">
+
+    <div class="alert-box">
+
+        <h2>⚠ SECURITY ALERT</h2>
+
+        <p>
+            Suspicious activity has been detected.
+            <br><br>
+            System security has been compromised.
+        </p>
+
+        <button class="alert-button" onclick="startCode()">
+            VIEW SYSTEM STATUS
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- GREEN CODE SCREEN -->
+
+<div id="codeScreen">
+
+    <div class="topbar">
+        SYSTEM TERMINAL // SECURITY MONITOR
+    </div>
+
+    <div id="code"></div>
+
+</div>
+
+
+<script>
+
+/*
+    This is a visual simulation only.
+    It does not access or modify the device.
+*/
+
+const warning = document.getElementById("warning");
+const alertBox = document.getElementById("alert");
+const codeScreen = document.getElementById("codeScreen");
+const code = document.getElementById("code");
+
+
+/* First screen */
+
+setTimeout(() => {
+
+    warning.style.display = "none";
+    alertBox.style.display = "flex";
+
+}, 3500);
+
+
+/* Start green code */
+
+function startCode() {
+
+    alertBox.style.display = "none";
+    codeScreen.style.display = "block";
+
+    generateCode();
+}
+
+
+/* Fake terminal lines */
+
+const phrases = [
+    "SYSTEM INITIALIZATION...",
+    "SECURITY MODULE LOADED",
+    "CHECKING ENCRYPTION...",
+    "AUTHENTICATION SERVICE ACTIVE",
+    "NETWORK INTERFACE DETECTED",
+    "RUNNING SECURITY ANALYSIS...",
+    "PROCESS TABLE INITIALIZED",
+    "MEMORY CHECK COMPLETE",
+    "FIREWALL STATUS: ACTIVE",
+    "ENCRYPTION STATUS: SIMULATED",
+    "ANALYZING SYSTEM...",
+    "GENERATING SESSION...",
+    "ACCESS SEQUENCE: SIMULATED",
+    "SYSTEM MONITOR ACTIVE",
+    "PROCESS COMPLETE"
+];
+
+
+const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}";
+
+
+function randomCode(length) {
+
+    let result = "";
+
+    for (let i = 0; i < length; i++) {
+        result += characters[
+            Math.floor(Math.random() * characters.length)
+        ];
+    }
+
+    return result;
+}
+
+
+function generateCode() {
+
+    let output = "";
+
+    for (let i = 0; i < 35; i++) {
+
+        if (Math.random() > .65) {
+
+            output +=
+                "[SIM] " +
+                phrases[Math.floor(Math.random() * phrases.length)] +
+                "\n";
+
+        } else {
+
+            output +=
+                randomCode(
+                    Math.floor(Math.random() * 50) + 25
+                ) +
+                "\n";
+        }
+    }
+
+    code.textContent = output;
+
+    setTimeout(generateCode, 90);
+}
+
+
+/* Keep the screen filled when the phone rotates */
+
+window.addEventListener("resize", () => {
+    if (codeScreen.style.display === "block") {
+        generateCode();
+    }
+});
+
+</script>
+
+</body>
+</html>
